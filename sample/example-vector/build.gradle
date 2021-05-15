@@ -83,8 +83,8 @@ easylauncher {
             filters customRibbon(ribbonColor: "#99000000", labelColor: "#88FF0000", textSizeRatio: 0.3f)
         }
         customFont {
-            filters customRibbon(label: "regular", font: "ComicSansMS", position: "top"),
-                    chromeLike(label: "bold", font: "ComicSansMS-Bold")
+            filters customRibbon(label: "regular", font: "Comic Sans MS", position: "top"),
+                    chromeLike(label: "bold", font: "Comic Sans MS Bold")
         }
         customFontByFile {
             filters customRibbon(label: "\ue868\ue3B7", font: file("fonts/MaterialIcons-Regular.ttf"), position: "top"),
