@@ -19,6 +19,7 @@ internal fun File.transformImage(outputFile: File, filters: List<EasyLauncherFil
     ImageIO.write(image, extension, outputFile)
 }
 
+@OptIn(ExperimentalStdlibApi::class)
 internal fun File.transformXml(outputFile: File, minSdkVersion: Int, filters: List<EasyLauncherFilter>) {
     val iconXml = XmlSlurper().parse(this)
     val width = iconXml.property("@android:width")?.toSize().let(::requireNotNull)

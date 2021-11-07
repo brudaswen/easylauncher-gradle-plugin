@@ -15,6 +15,7 @@ import java.io.Serializable
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalStdlibApi::class)
 @Suppress("TooManyFunctions", "MagicNumber")
 open class EasyLauncherConfig @Inject constructor(
     val name: String,
