@@ -80,8 +80,6 @@ private val File.normalizedName
         else -> name
     }
 
-internal const val ADAPTIVE_CONTENT_SCALE = 56 / 108f
-
 internal const val ANDROID_OREO = 26
 
 @Suppress("MagicNumber")

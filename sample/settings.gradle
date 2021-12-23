@@ -5,6 +5,7 @@ include ':example-library'
 include ':example-manifest-placeholder'
 include ':example-scripted'
 include ':example-simple'
+include ':example-v2'
 include ':example-vector'
 include ':example-webp'
 

@@ -1,0 +1,99 @@
+apply plugin: 'com.starter.application.android'
+apply plugin: 'com.starter.easylauncher'
+
+android {
+    defaultConfig {
+        minSdkVersion 26
+    }
+    buildTypes {
+        named("release") {
+            signingConfig signingConfigs.debug
+        }
+    }
+    flavorDimensions.add("filterType")
+    flavorDimensions.add("launcherType")
+    productFlavors {
+        register("chromeLike") {
+            dimension "filterType"
+        }
+        register("ribbon") {
+            dimension "filterType"
+        }
+        register("overlay") {
+            dimension "filterType"
+        }
+        register("legacy") {
+            dimension "launcherType"
+        }
+        register("adaptive") {
+            dimension "launcherType"
+        }
+    }
+}
+
+dependencies {
+    implementation project(":adaptive-support")
+}
+
+easylauncher {
+    buildTypes {
+        release {
+            enable false
+        }
+    }
+    productFlavors {
+        chromeLike {
+            filters {
+                it.chromeLike {
+                    it.label = "Top"
+                    it.gravity = "top"
+                    it.ribbonColor = "#723D46"
+                    it.labelColor = "#EEFFFEE"
+                    it.labelPadding = 25
+                    it.overlayRatio = 0.5
+                    it.textSizeRatio = 0.15
+                }
+                it.chromeLike {
+                    it.label = "Bottom"
+                }
+            }
+        }
+        ribbon {
+            filters {
+                it.ribbon {
+                    it.label = "TopLeft"
+                    it.gravity = "topLeft"
+                }
+                it.ribbon {
+                    it.label = "TopRight"
+                    it.gravity = "topRight"
+                    it.ribbonColor = "#0000cc"
+                    it.labelColor = "#FFFFFF"
+                    it.textSizeRatio = 0.15f
+                    it.paddingRatio = 0f
+                }
+                it.ribbon {
+                    it.label = "Top"
+                    it.gravity = "top"
+                    it.ribbonColor = "#cc0000"
+                    it.textSizeRatio = 0.2f
+                }
+                it.ribbon {
+                    it.label = "Bottom"
+                    it.gravity = "bottom"
+                    it.ribbonColor = "#0000cc"
+                    it.labelColor = "#FFFFFF"
+                    it.textSizeRatio = 0.25f
+                    it.paddingRatio = 0.2f
+                }
+            }
+        }
+        overlay {
+            filters {
+                it.overlay {
+                    it.file = "../example-custom/launcherOverlay/beta.png"
+                }
+            }
+        }
+    }
+}

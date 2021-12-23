@@ -4,6 +4,7 @@ import com.project.starter.easylauncher.filter.ChromeLikeFilter
 import com.project.starter.easylauncher.filter.ColorRibbonFilter
 import com.project.starter.easylauncher.filter.EasyLauncherFilter
 import com.project.starter.easylauncher.filter.OverlayFilter
+import com.project.starter.easylauncher.plugin.config.FilterBuilder
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
@@ -49,6 +50,10 @@ open class EasyLauncherConfig @Inject constructor(
 
     fun filters(vararg filters: EasyLauncherFilter) {
         this.filters.value(this.filters.get() + filters)
+    }
+
+    fun filters(builder: FilterBuilder.() -> Unit) {
+        FilterBuilder(this.name, filters).builder()
     }
 
     fun setIconNames(names: Iterable<String>) {
@@ -169,7 +174,7 @@ open class EasyLauncherConfig @Inject constructor(
         textSizeRatio: Float? = null,
         gravity: ChromeLikeFilter.Gravity? = null,
     ) = ChromeLikeFilter(
-        label ?: this.name,
+        label = label ?: this.name,
         ribbonColor = ribbonColor?.toColor(),
         labelColor = labelColor?.toColor(),
         labelPadding = labelPadding,
@@ -221,38 +226,38 @@ open class EasyLauncherConfig @Inject constructor(
         )
     }
 
-    private fun String.toColor(): Color {
-        val value = java.lang.Long.decode(this)
-
-        return when (length) {
-            "#AARRGGBB".length -> {
-                val alpha = (value shr 24 and 0xFF).toInt()
-                val red = (value shr 16 and 0xFF).toInt()
-                val green = (value shr 8 and 0xFF).toInt()
-                val blue = (value and 0xFF).toInt()
-
-                Color(red, green, blue, alpha)
-            }
-            "#RRGGBB".length -> {
-                val red = (value shr 16 and 0xFF).toInt()
-                val green = (value shr 8 and 0xFF).toInt()
-                val blue = (value and 0xFF).toInt()
-                Color(red, green, blue)
-            }
-            else -> Color.decode(this)
-        }
-    }
-
     companion object {
         private const val serialVersionUID = 1L
     }
 }
 
+internal fun String.toColor(): Color {
+    val value = java.lang.Long.decode(this)
+
+    return when (length) {
+        "#AARRGGBB".length -> {
+            val alpha = (value shr 24 and 0xFF).toInt()
+            val red = (value shr 16 and 0xFF).toInt()
+            val green = (value shr 8 and 0xFF).toInt()
+            val blue = (value and 0xFF).toInt()
+
+            Color(red, green, blue, alpha)
+        }
+        "#RRGGBB".length -> {
+            val red = (value shr 16 and 0xFF).toInt()
+            val green = (value shr 8 and 0xFF).toInt()
+            val blue = (value and 0xFF).toInt()
+            Color(red, green, blue)
+        }
+        else -> Color.decode(this)
+    }
+}
+
 private fun Iterable<*>?.toDrawingOptions() =
-    this?.map { it.toString() }.orEmpty()
+    this?.mapNotNull { it?.toString() }.orEmpty()
         .map { rawOption ->
-            val option = ColorRibbonFilter.DrawingOption.values().firstOrNull { rawOption.matchesEnum(it) }
-            checkNotNull(option) { "Unknown option: $rawOption. Use one of ${ColorRibbonFilter.DrawingOption.values().map { it.name }}" }
+            ColorRibbonFilter.DrawingOption.values().firstOrNull(rawOption::matchesEnum)
+                ?: error("Unknown option: $rawOption. Use one of ${ColorRibbonFilter.DrawingOption.values().map { it.name }}")
         }
         .toSet()
 

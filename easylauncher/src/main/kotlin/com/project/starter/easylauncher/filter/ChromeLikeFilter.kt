@@ -1,6 +1,5 @@
 package com.project.starter.easylauncher.filter
 
-import com.project.starter.easylauncher.plugin.ADAPTIVE_CONTENT_SCALE
 import java.awt.AlphaComposite
 import java.awt.Color
 import java.awt.Font
@@ -10,11 +9,13 @@ import java.awt.font.FontRenderContext
 import java.io.File
 import kotlin.math.roundToInt
 
+private const val ADAPTIVE_CONTENT_SCALE = 56 / 108f
+
 class ChromeLikeFilter(
     private val label: String,
     ribbonColor: Color? = null,
     labelColor: Color? = null,
-    private val labelPadding: Int? = null,
+    labelPadding: Int? = null,
     overlayHeight: Float? = null,
     gravity: Gravity? = null,
     private val textSizeRatio: Float? = null,
@@ -31,6 +32,9 @@ class ChromeLikeFilter(
 
     @Transient
     private val labelColor = labelColor ?: Color.WHITE
+
+    @Transient
+    private val labelPadding: Int = labelPadding ?: 0
 
     @Transient
     private val font = getFont(
@@ -92,13 +96,13 @@ class ChromeLikeFilter(
                 graphics.drawString(
                     label,
                     canvas.width / 2 - textBounds.width.toInt() / 2,
-                    backgroundHeight - fm.descent - (labelPadding ?: 0),
+                    backgroundHeight - fm.descent - labelPadding,
                 )
             Gravity.BOTTOM ->
                 graphics.drawString(
                     label,
                     canvas.width / 2 - textBounds.width.toInt() / 2,
-                    canvas.height - backgroundHeight + fm.ascent + (labelPadding ?: 0),
+                    canvas.height - backgroundHeight + fm.ascent + labelPadding,
                 )
         }
     }
