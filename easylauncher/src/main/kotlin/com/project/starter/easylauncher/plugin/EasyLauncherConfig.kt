@@ -37,7 +37,7 @@ open class EasyLauncherConfig @Inject constructor(
     }
 
     fun enable(enabled: Boolean) {
-        this.enabled.value(enabled)
+        this.enabled.set(enabled)
     }
 
     fun setFilters(filters: Iterable<EasyLauncherFilter>) {
@@ -45,15 +45,15 @@ open class EasyLauncherConfig @Inject constructor(
     }
 
     fun setFilters(filter: EasyLauncherFilter) {
-        this.filters.value(this.filters.get() + filter)
+        this.filters.add(filter)
     }
 
     fun filters(vararg filters: EasyLauncherFilter) {
-        this.filters.value(this.filters.get() + filters)
+        this.filters.addAll(*filters)
     }
 
     fun filters(builder: FilterBuilder.() -> Unit) {
-        FilterBuilder(this.name, filters).builder()
+        this.filters.addAll(FilterBuilder(name).apply(builder).build())
     }
 
     fun setIconNames(names: Iterable<String>) {

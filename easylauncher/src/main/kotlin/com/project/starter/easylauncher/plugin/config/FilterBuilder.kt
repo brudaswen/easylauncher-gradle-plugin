@@ -1,12 +1,11 @@
 package com.project.starter.easylauncher.plugin.config
 
 import com.project.starter.easylauncher.filter.EasyLauncherFilter
-import org.gradle.api.provider.SetProperty
 
 class FilterBuilder(
     private val name: String,
-    private val filters: SetProperty<EasyLauncherFilter>,
 ) {
+    private val filters = mutableListOf<EasyLauncherFilter>()
 
     fun ribbon(builder: RibbonBuilder.() -> Unit) {
         filters.add(RibbonBuilder(name).apply(builder).build())
@@ -19,4 +18,6 @@ class FilterBuilder(
     fun overlay(builder: OverlayFilterBuilder.() -> Unit) {
         filters.add(OverlayFilterBuilder().apply(builder).build())
     }
+
+    internal fun build(): List<EasyLauncherFilter> = filters
 }
