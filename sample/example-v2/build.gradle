@@ -49,7 +49,7 @@ easylauncher {
                     it.gravity = "top"
                     it.ribbonColor = "#723D46"
                     it.labelColor = "#EEFFFEE"
-                    it.labelPadding = 25
+                    it.labelPaddingRatio = 0.1
                     it.overlayRatio = 0.5
                     it.textSizeRatio = 0.15
                 }

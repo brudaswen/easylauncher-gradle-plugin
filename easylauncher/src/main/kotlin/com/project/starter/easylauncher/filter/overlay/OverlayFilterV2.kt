@@ -2,7 +2,6 @@ package com.project.starter.easylauncher.filter.overlay
 
 import com.project.starter.easylauncher.filter.Canvas
 import com.project.starter.easylauncher.filter.EasyLauncherFilter
-import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.IOException
 import javax.imageio.ImageIO
@@ -20,9 +19,6 @@ class OverlayFilterV2(
     private val overlayFile: File,
 ) : EasyLauncherFilter {
 
-    private val logger
-        get() = LoggerFactory.getLogger(this::class.java)
-
     override fun apply(canvas: Canvas, adaptive: Boolean) {
         try {
             ImageIO.read(overlayFile)?.let { overlayImage ->
@@ -34,7 +30,7 @@ class OverlayFilterV2(
                 )
             }
         } catch (e: IOException) {
-            logger.error("Failed to load overlay ${overlayFile.name}", e)
+            error("Failed to load overlay image '${overlayFile.absolutePath}'.")
         }
     }
 }

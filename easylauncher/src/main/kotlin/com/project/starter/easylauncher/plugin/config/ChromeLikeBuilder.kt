@@ -10,7 +10,7 @@ class ChromeLikeBuilder(
 ) {
     var ribbonColor: Color? = null
     var labelColor: Color? = null
-    var labelPadding: Int? = null
+    var labelPaddingRatio: Float? = null
     var overlayRatio: Float? = null
     var gravity: ChromeLikeFilterV2.Gravity? = null
     var textSizeRatio: Float? = null
@@ -35,7 +35,7 @@ class ChromeLikeBuilder(
         label = label,
         ribbonColor = ribbonColor,
         labelColor = labelColor,
-        labelPadding = labelPadding,
+        labelPaddingRatio = labelPaddingRatio,
         overlayRatio = overlayRatio,
         gravity = gravity,
         textSizeRatio = textSizeRatio,

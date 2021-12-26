@@ -14,7 +14,7 @@ class ChromeLikeFilterV2(
     private val label: String,
     private val ribbonColor: Color?,
     private val labelColor: Color?,
-    private val labelPadding: Int?,
+    private val labelPaddingRatio: Float?,
     private val overlayRatio: Float?,
     private val gravity: Gravity?,
     textSizeRatio: Float?,
@@ -44,7 +44,7 @@ class ChromeLikeFilterV2(
             font = font,
             overlayRatio = overlayRatio ?: OVERLAY_RATIO,
             labelSize = labelSize,
-            labelPadding = labelPadding ?: 0,
+            labelPaddingRatio = labelPaddingRatio ?: 0f,
             ignoreAlpha = !adaptive,
         ).render(
             canvas = canvas,

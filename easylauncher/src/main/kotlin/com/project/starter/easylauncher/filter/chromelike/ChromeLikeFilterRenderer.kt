@@ -19,7 +19,7 @@ class ChromeLikeFilterRenderer(
     private val font: Font,
     private val overlayRatio: Float,
     private val labelSize: LabelSize,
-    private val labelPadding: Int,
+    private val labelPaddingRatio: Float,
     private val ignoreAlpha: Boolean,
 ) {
     fun render(canvas: Canvas, label: String) = canvas.use { graphics ->
@@ -62,6 +62,7 @@ class ChromeLikeFilterRenderer(
         graphics.fillRect(background.x, background.y, background.width, background.height)
 
         // draw the label
+        val labelPadding = labelPaddingRatio * canvas.height
         val labelX = (background.centerX - textBounds.centerX).toFloat()
         val labelY = when (gravity) {
             Gravity.Top -> background.maxY.toFloat() - graphics.fontMetrics.descent - labelPadding
