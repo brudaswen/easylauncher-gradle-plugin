@@ -1,3 +1,5 @@
+import com.android.build.api.variant.ResValue
+
 apply plugin: 'com.starter.application.android'
 apply plugin: 'com.starter.easylauncher'
 
@@ -49,6 +51,13 @@ android {
         register("allFilters") {
             dimension "reportedBugs"
         }
+    }
+}
+
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        def value = new ResValue(variant.applicationId.get(), "Added from the variant API")
+        variant.resValues.put(variant.makeResValueKey("string", "generated_key"), value)
     }
 }
 
