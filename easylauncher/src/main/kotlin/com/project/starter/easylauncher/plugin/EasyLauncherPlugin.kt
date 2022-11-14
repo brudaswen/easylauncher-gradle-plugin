@@ -1,11 +1,12 @@
 package com.project.starter.easylauncher.plugin
 
+import com.android.build.api.artifact.Artifact
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.api.variant.Variant
 import com.android.build.gradle.internal.api.DefaultAndroidSourceFile
-import com.android.build.gradle.internal.scope.InternalArtifactType
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.file.Directory
 import org.gradle.configurationcache.extensions.capitalized
 import java.io.File
 
@@ -104,11 +105,13 @@ class EasyLauncherPlugin : Plugin<Project> {
                         it.minSdkVersion.set(variant.minSdkVersion.apiLevel)
                     }
 
+                    variant.sources.res?.addGeneratedSourceDirectory(task, EasyLauncherTask::outputDir)
+
                     variant
                         .artifacts
                         .use(task)
                         .wiredWith(EasyLauncherTask::outputDir)
-                        .toCreate(InternalArtifactType.GENERATED_RES)
+                        .toCreate(EASYLAUNCHER_RES)
                 }
             } else {
                 log.info { "disabled for ${variant.name}" }
@@ -125,3 +128,5 @@ class EasyLauncherPlugin : Plugin<Project> {
             ribbonBuildTypes.filter { it.name == variant.buildType }
     }
 }
+
+private object EASYLAUNCHER_RES : Artifact.Single<Directory>(DIRECTORY, Category.GENERATED), Artifact.Replaceable
