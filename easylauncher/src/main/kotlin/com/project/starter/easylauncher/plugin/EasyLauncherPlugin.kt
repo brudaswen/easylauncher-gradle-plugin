@@ -4,6 +4,8 @@ import com.android.build.api.artifact.Artifact
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.api.variant.Variant
 import com.android.build.gradle.internal.api.DefaultAndroidSourceFile
+import com.android.build.gradle.internal.scope.InternalArtifactType
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
@@ -34,7 +36,7 @@ class EasyLauncherPlugin : Plugin<Project> {
                 .forEach { resSourceDirectoriesBySourceSet[it.first] = it.second }
         }
 
-        androidComponents.onVariants { variant ->
+        androidComponents.onVariants(androidComponents.selector().all()) { variant ->
             val configs = extension.variants.filter { it.name == variant.name }.takeIf { it.isNotEmpty() }
                 ?: findConfigs(variant, extension.productFlavors, extension.buildTypes)
 
